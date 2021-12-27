@@ -28,14 +28,17 @@ class UserService{
     }
     validateRequestData(email){
         if(!email){
-            throw new UserException(httpStatus.BAD_REQUEST, "User email was not  informed.")
+            throw new UserException(httpStatus.BAD_REQUEST, "User email was not  informed.");
         }
 
     }
     validateUserNotFound(user){
     if(!user){
-        throw new Error(httpStatus.BAD_REQUEST, "User was not found.")
+        throw new UserException(httpStatus.BAD_REQUEST, "User was not found.");
     }
+    }
+    async getAccessToken(){
+        const { email, password } = req.body;
     }
 
 }
