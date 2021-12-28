@@ -15,7 +15,6 @@ services:
   product-db:
     image: postgres:11
     container_name: product-db
-    restart: always
     environment:
       - POSTGRES_DB=product-db
       - POSTGRES_USER=postgres
@@ -26,7 +25,6 @@ services:
   sales-db:
     image: tutum/mongodb
     container_name: sales-db
-    restart: always
     environment:
       - MONGODB_USER=admin
       - MONGODB_DATABASE=sales

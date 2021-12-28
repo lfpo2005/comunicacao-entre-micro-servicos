@@ -25,6 +25,9 @@ public class Product implements Serializable {
     @Column(nullable = false, length = 500)
     private String description;
 
+    @Column(nullable = false)
+    private Integer quantityAvailable;
+
     @ManyToOne
     @JoinColumn(name = "FK_SUPPLIER", nullable = false)
     private Supplier supplier;

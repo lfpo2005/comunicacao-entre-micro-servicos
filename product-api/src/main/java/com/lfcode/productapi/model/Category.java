@@ -3,16 +3,13 @@ package com.lfcode.productapi.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,4 +24,7 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String description;
 
-}
+
+    }
+
+
