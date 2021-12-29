@@ -7,23 +7,30 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
 @Entity
-@Table(name = "CATEGORY")
+@Table(name = "TB_CATEGORY")
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column(columnDefinition = "Text")
     private String description;
 
+    @OneToMany(mappedBy = "category", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<SubCategory> subCategory = new ArrayList<SubCategory>();
 
     }
 
