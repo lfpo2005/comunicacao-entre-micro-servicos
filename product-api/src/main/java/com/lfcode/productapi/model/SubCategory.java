@@ -1,15 +1,19 @@
 package com.lfcode.productapi.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+
 @Entity
 @Table(name = "TB_SUB_CATEGORIES")
 public class SubCategory implements Serializable {
@@ -26,4 +30,23 @@ public class SubCategory implements Serializable {
     @ManyToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "Category_fx"))
     private Category category;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
+	}
+
+	
+
 }

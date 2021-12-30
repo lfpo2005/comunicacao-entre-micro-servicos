@@ -1,7 +1,7 @@
 package com.lfcode.productapi.service.impl;
 
 import com.lfcode.productapi.model.Category;
-import com.lfcode.productapi.repository.CategoryRepository;
+import com.lfcode.productapi.repository.ProductRepository;
 import com.lfcode.productapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    CategoryRepository categoryRepository;
+    ProductRepository categoryRepository;
 
     @Override
     public Page<Category> findAll(Pageable pageable) {
@@ -27,11 +27,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category save(Category category) {
-       return categoryRepository.save(category);
+    public void save(Category category) {
+        categoryRepository.save(category);
     }
 
+    @Override
+    public void delete(Category category) {
+        categoryRepository.delete(category);
+    }
 
+    @Override
+    public boolean existsByNameCategory(String nameCategory){
+        return categoryRepository.existsByNameCategory(nameCategory);
+    }
 
 
 }

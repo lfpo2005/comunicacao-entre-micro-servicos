@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/comunicacao entre micro servicos.iml" filepath="$PROJECT_DIR$/.idea/comunicacao entre micro servicos.iml" />
-      <module fileurl="file://$PROJECT_DIR$/sales-api/sales-api.iml" filepath="$PROJECT_DIR$/sales-api/sales-api.iml" />
-    </modules>
-  </component>
-</project>

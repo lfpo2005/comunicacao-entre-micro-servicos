@@ -1,15 +1,15 @@
 package com.lfcode.productapi.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
 @Entity
 @Table(name = "TB_SUPPLIER")
 public class Supplier implements Serializable {
@@ -20,5 +20,50 @@ public class Supplier implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 50, unique = true)
-    private String name;
+    private String nameSupplier;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Supplier other = (Supplier) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNameSupplier() {
+		return nameSupplier;
+	}
+
+	public void setNameSupplier(String name) {
+		this.nameSupplier = nameSupplier;
+	}
+    
+    
+    
+    
 }

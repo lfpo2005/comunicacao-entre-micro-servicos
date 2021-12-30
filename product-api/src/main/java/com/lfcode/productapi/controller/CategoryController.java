@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -21,33 +22,59 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<Page<Category>> getAllCategory(@PageableDefault(page = 0, size = 10)
-                                                                     Pageable pageable ){
+                                                                 Pageable pageable) {
 
-      return ResponseEntity.ok(categoryService.findAll(pageable));
+        return ResponseEntity.ok(categoryService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneCategory(@PathVariable(value = "id")Long id){
+    public ResponseEntity<Object> getOneCategory(@PathVariable(value = "id") Long id) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if(!categoryOptional.isPresent()){
+        if (!categoryOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found");
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(categoryOptional.get());
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCategory(@PathVariable(value = "id")Long id,
-                                                 @RequestBody Category category){
+    public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id,
+                                                 @RequestBody Category category) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if(!categoryOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found");
-        }else{
-           Category categorySave = categoryService.save(category);
+        if (!categoryOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!");
+        } else {
+            categoryService.save(category);
             return ResponseEntity.status(HttpStatus.OK).body(categoryOptional.get());
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id) {
+
+        Optional<Category> categoryOptional = categoryService.findById(id);
+        if (!categoryOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!");
+        } else {
+            categoryService.delete(categoryOptional.get());
+            return ResponseEntity.status(HttpStatus.OK).body("Category deleted success!");
+        }
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<Object> registerCategory(@RequestBody Category category) {
+
+
+        if (categoryService.existsByNameCategory(category.getNameCategory())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
+        } else {
+
+            categoryService.save(category);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(category);
+
+        }
+    }
 }
