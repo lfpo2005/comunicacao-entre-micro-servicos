@@ -22,7 +22,7 @@ public class Category implements Serializable {
 	private String description;
 
 	@OneToMany(mappedBy = "category", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<SubCategory> subCategory = new ArrayList<SubCategory>();
+	private List<SubCategory> subCategories = new ArrayList<SubCategory>();
 
 	public Long getId() {
 		return id;
@@ -48,12 +48,12 @@ public class Category implements Serializable {
 		this.description = description;
 	}
 
-	public List<SubCategory> getSubCategory() {
-		return subCategory;
+	public List<SubCategory> getSubCategories() {
+		return subCategories;
 	}
 
-	public void setSubCategory(List<SubCategory> subCategory) {
-		this.subCategory = subCategory;
+	public void setSubCategories(List<SubCategory> subCategories) {
+		this.subCategories = subCategories;
 	}
 
 	@Override

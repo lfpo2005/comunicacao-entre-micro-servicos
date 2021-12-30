@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("api/category")
 public class CategoryController {
 
@@ -43,6 +44,11 @@ public class CategoryController {
                                                  @RequestBody Category category) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
+
+        for (int pos = 0 ; pos <category.getSubCategories().size(); pos ++) {
+            category.getSubCategories().get(pos).setCategory(category);
+        }
+
         if (!categoryOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!");
         } else {
@@ -65,6 +71,10 @@ public class CategoryController {
 
     @PostMapping("/")
     public ResponseEntity<Object> registerCategory(@RequestBody Category category) {
+
+        for (int pos = 0 ; pos <category.getSubCategories().size(); pos ++) {
+            category.getSubCategories().get(pos).setCategory(category);
+        }
 
 
         if (categoryService.existsByNameCategory(category.getNameCategory())) {
