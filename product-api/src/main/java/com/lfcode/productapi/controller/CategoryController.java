@@ -8,14 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("api/category")
+@RequestMapping("/api/category")
 public class CategoryController {
 
     @Autowired
@@ -41,17 +40,14 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id,
-                                                 @RequestBody Category category) {
+                                                 @RequestBody Category category){
 
         Optional<Category> categoryOptional = categoryService.findById(id);
-
-        for (int pos = 0 ; pos <category.getSubCategories().size(); pos ++) {
-            category.getSubCategories().get(pos).setCategory(category);
-        }
 
         if (!categoryOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!");
         } else {
+
             categoryService.save(category);
             return ResponseEntity.status(HttpStatus.OK).body(categoryOptional.get());
         }
@@ -72,19 +68,12 @@ public class CategoryController {
     @PostMapping("/")
     public ResponseEntity<Object> registerCategory(@RequestBody Category category) {
 
-        for (int pos = 0 ; pos <category.getSubCategories().size(); pos ++) {
-            category.getSubCategories().get(pos).setCategory(category);
-        }
-
-
         if (categoryService.existsByNameCategory(category.getNameCategory())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
         } else {
 
             categoryService.save(category);
-
             return ResponseEntity.status(HttpStatus.CREATED).body(category);
-
         }
     }
 }

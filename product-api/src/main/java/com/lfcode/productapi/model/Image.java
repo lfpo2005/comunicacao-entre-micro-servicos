@@ -1,17 +1,13 @@
 package com.lfcode.productapi.model;
 
-import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
+
 
 @Entity
 @Table(name = "TB_IMAGE")
@@ -30,65 +26,53 @@ public class Image implements Serializable {
         @Column
         private String ImgURL;
 
-        @ManyToOne
+       /* @ManyToOne
         @JoinColumn(name = "image_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "image_fx"))
-        private Product imageProduct;
+        private Product imageProduct;*/
 
-	public Long getId() {
-		return id;
-	}
+        public Image() {
+        }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+        public Image(Long id, String image, String imgURL) {
+                this.id = id;
+                Image = image;
+                ImgURL = imgURL;
+        }
 
-	public String getImage() {
-		return Image;
-	}
+        public Long getId() {
+                return id;
+        }
 
-	public void setImage(String image) {
-		Image = image;
-	}
+        public void setId(Long id) {
+                this.id = id;
+        }
 
-	public String getImgURL() {
-		return ImgURL;
-	}
+        public String getImage() {
+                return Image;
+        }
 
-	public void setImgURL(String imgURL) {
-		ImgURL = imgURL;
-	}
+        public void setImage(String image) {
+                Image = image;
+        }
 
-	public Product getImageProduct() {
-		return imageProduct;
-	}
+        public String getImgURL() {
+                return ImgURL;
+        }
 
-	public void setImageProduct(Product imageProduct) {
-		this.imageProduct = imageProduct;
-	}
+        public void setImgURL(String imgURL) {
+                ImgURL = imgURL;
+        }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Image image = (Image) o;
+                return id.equals(image.id);
+        }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Image other = (Image) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-    }
+        @Override
+        public int hashCode() {
+                return Objects.hash(id);
+        }
+}

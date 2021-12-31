@@ -19,4 +19,6 @@ public interface CategoryService {
     void delete(Category category);
 
     boolean existsByNameCategory(String nameCategory);
+
+
 }

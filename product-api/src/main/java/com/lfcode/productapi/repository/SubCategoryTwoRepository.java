@@ -1,14 +1,14 @@
 package com.lfcode.productapi.repository;
 
-import com.lfcode.productapi.model.Category;
 import com.lfcode.productapi.model.SubCategoryOne;
+import com.lfcode.productapi.model.SubCategoryTwo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
-public interface CategoryRepository extends JpaRepository <Category, Long>, JpaSpecificationExecutor<Object> {
+public interface SubCategoryTwoRepository extends JpaRepository <SubCategoryTwo, Long>, JpaSpecificationExecutor<Object> {
 
 
 
-     boolean existsByNameCategory(String nameCategory);
-}
+ boolean existsBySubCategoryTwo(String subCategoryTwo);;
+ }

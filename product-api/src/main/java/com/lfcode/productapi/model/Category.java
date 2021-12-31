@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 @Entity
 @Table(name = "TB_CATEGORY")
@@ -21,8 +23,32 @@ public class Category implements Serializable {
 	@Column(columnDefinition = "Text")
 	private String description;
 
+
 	@OneToMany(mappedBy = "category", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<SubCategory> subCategories = new ArrayList<SubCategory>();
+	private List<SubCategoryOne> subCategoryOnes = new ArrayList<SubCategoryOne>();
+
+	public Category() {
+	}
+
+	public Category(Long id, String nameCategory, String description, List<SubCategoryOne> subCategoryOnes) {
+		this.id = id;
+		this.nameCategory = nameCategory;
+		this.description = description;
+		this.subCategoryOnes = subCategoryOnes;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Category)) return false;
+		Category category = (Category) o;
+		return getId().equals(category.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getId());
+	}
 
 	public Long getId() {
 		return id;
@@ -48,37 +74,11 @@ public class Category implements Serializable {
 		this.description = description;
 	}
 
-	public List<SubCategory> getSubCategories() {
-		return subCategories;
+	public List<SubCategoryOne> getSubCategoryOnes() {
+		return subCategoryOnes;
 	}
 
-	public void setSubCategories(List<SubCategory> subCategories) {
-		this.subCategories = subCategories;
+	public void setSubCategoryOnes(List<SubCategoryOne> subCategoryOnes) {
+		this.subCategoryOnes = subCategoryOnes;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
 }
