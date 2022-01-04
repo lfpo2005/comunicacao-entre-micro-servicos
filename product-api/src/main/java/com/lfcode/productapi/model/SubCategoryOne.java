@@ -1,7 +1,6 @@
 package com.lfcode.productapi.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,7 +25,8 @@ public class SubCategoryOne implements Serializable {
     @OneToMany(mappedBy = "subCategoryOne", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SubCategoryTwo> SubCategoryTwos = new ArrayList<SubCategoryTwo>();
 
-    @ManyToOne(targetEntity = Category.class)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "category_fx"))
     private Category category;
 

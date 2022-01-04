@@ -1,13 +1,11 @@
 package com.lfcode.productapi.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
 
-
+@Data
 @Entity
 @Table(name = "TB_SUB_CATEGORY_TWO")
 public class SubCategoryTwo implements Serializable {
@@ -26,40 +24,4 @@ public class SubCategoryTwo implements Serializable {
    private SubCategoryOne subCategoryOne;
 
 
-    public SubCategoryTwo() {
-    }
-
-    public SubCategoryTwo(Long id, String subCategoryTwo) {
-        this.id = id;
-        this.subCategoryTwo = subCategoryTwo;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSubCategoryTwo() {
-        return subCategoryTwo;
-    }
-
-    public void setSubCategoryTwo(String subCategoryTwo) {
-        this.subCategoryTwo = subCategoryTwo;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubCategoryTwo that = (SubCategoryTwo) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
