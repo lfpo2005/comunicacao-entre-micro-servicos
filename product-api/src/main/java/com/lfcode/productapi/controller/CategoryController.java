@@ -1,7 +1,6 @@
 package com.lfcode.productapi.controller;
 
 import com.lfcode.productapi.model.Category;
-import com.lfcode.productapi.model.SubCategoryOne;
 import com.lfcode.productapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -29,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneCategory(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> getOneCategory(@PathVariable(value = "id") UUID id) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (!categoryOptional.isPresent()) {
@@ -40,7 +40,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id,
+    public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") UUID id,
                                                  @RequestBody Category category) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
@@ -55,7 +55,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") UUID id) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (!categoryOptional.isPresent()) {
@@ -73,52 +73,14 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
         } else {
 
-            var subCategoryOne = new SubCategoryOne();
-
-            for (int pos = 0; pos < category.getSubCategoryOnes().size(); pos++) {
-                category.getSubCategoryOnes().get(pos).setCategory(category);
-
+            for (int pos = 0; pos < category.getProduct().size(); pos++) {
+                category.getProduct().get(pos).setCategory(category);
             }
-                for (int two = 0; two < subCategoryOne.getSubCategoryTwos().size(); two++) {
-                    subCategoryOne.getSubCategoryTwos().get(two).setSubCategoryTwo(String.valueOf(subCategoryOne));
-                }
-
 
             categoryService.save(category);
             return ResponseEntity.status(HttpStatus.CREATED).body(category);
         }
     }
-
-
-  /** @PostMapping("/")
-    public ResponseEntity<Object> registerCategory(@RequestBody @Validated(CategoryDTO.CategoryView.RegistrationPost.class)
-                                                   @JsonView(CategoryDTO.CategoryView.RegistrationPost.class) CategoryDTO categoryDTO) {
-
-        if (categoryService.existsByNameCategory(categoryDTO.getNameCategory())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
-        } else {
-
-            var category = new Category();
-            var subCategoryOne = new SubCategoryOne();
-            //var subCategoryTwo = new SubCategoryTwo();
-
-
-            BeanUtils.copyProperties(categoryDTO, category);
-            BeanUtils.copyProperties(categoryDTO, subCategoryOne);
-
-
-            for (int pos = 0; pos < category.getSubCategoryOnes().size(); pos++) {
-                category.getSubCategoryOnes().get(pos).setCategory(category);
-
-                for (int two = 0; two < subCategoryOne.getSubCategoryTwos().size(); two++) {
-                    subCategoryOne.getSubCategoryTwos().get(two).setSubCategoryTwo(String.valueOf(subCategoryOne));
-                }
-            }
-
-            categoryService.save(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body(category);
-        }
-    }**/
 }
 
 

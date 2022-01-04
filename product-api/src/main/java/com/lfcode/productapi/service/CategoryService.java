@@ -6,13 +6,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public interface CategoryService {
 
     Page<Category> findAll(Pageable pageable);
 
-    Optional<Category> findById(Long id);
+    Optional<Category> findById(UUID id);
 
     void save(Category category);
 
