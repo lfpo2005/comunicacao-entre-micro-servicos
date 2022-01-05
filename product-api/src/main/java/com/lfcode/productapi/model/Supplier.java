@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -18,13 +16,13 @@ public class Supplier implements Serializable {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private Long id;
 
     @Column(nullable = false, length = 50, unique = true)
     private String nameSupplier;
 
-    @OneToMany(mappedBy = "supplier")
-    private List<Product> product;
+  /*  @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
+    private List<Product> product;*/
 
 
 }

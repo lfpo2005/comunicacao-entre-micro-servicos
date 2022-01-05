@@ -10,8 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -29,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneProduct(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> getOneProduct(@PathVariable(value = "id") Long id) {
 
         Optional<Product> productOptional = productService.findById(id);
         if (!productOptional.isPresent()) {
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id,
+    public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") Long id,
                                                  @RequestBody Product product) {
 
         Optional<Product> productOptional = productService.findById(id);
@@ -49,33 +50,41 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found!");
         } else {
 
+            for (int pos = 0; pos < product.getImages().size(); pos++) {
+                product.getImages().get(pos).setProduct(product);
+            }
+            //product.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
+            product.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+
             productService.save(product);
-            return ResponseEntity.status(HttpStatus.OK).body(productOptional.get());
+            return ResponseEntity.status(HttpStatus.CREATED).body(product);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> deleteProduct(@PathVariable(value = "id") Long id) {
 
         Optional<Product> productOptional = productService.findById(id);
         if (!productOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found!");
         } else {
             productService.delete(productOptional.get());
-            return ResponseEntity.status(HttpStatus.OK).body("Category deleted success!");
+            return ResponseEntity.status(HttpStatus.OK).body("Product deleted success!");
         }
     }
 
     @PostMapping("/")
-    public ResponseEntity<Object> registerCategory(@RequestBody Product product) {
+    public ResponseEntity<Object> registerProduct(@RequestBody Product product) {
 
         if (productService.existsByNameProduct(product.getNameProduct())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Product is Already Taken!");
         } else {
 
             for (int pos = 0; pos < product.getImages().size(); pos++) {
                 product.getImages().get(pos).setProduct(product);
             }
+            product.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
+            product.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
 
             productService.save(product);
             return ResponseEntity.status(HttpStatus.CREATED).body(product);

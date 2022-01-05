@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -29,7 +28,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneCategory(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> getOneCategory(@PathVariable(value = "id") Long id) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (!categoryOptional.isPresent()) {
@@ -40,7 +39,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") UUID id,
+    public ResponseEntity<Object> updateCategory(@PathVariable(value = "id") Long id,
                                                  @RequestBody Category category) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
@@ -55,7 +54,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> deleteCategory(@PathVariable(value = "id") Long id) {
 
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (!categoryOptional.isPresent()) {
@@ -72,10 +71,6 @@ public class CategoryController {
         if (categoryService.existsByNameCategory(category.getNameCategory())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
         } else {
-
-            for (int pos = 0; pos < category.getProduct().size(); pos++) {
-                category.getProduct().get(pos).setCategory(category);
-            }
 
             categoryService.save(category);
             return ResponseEntity.status(HttpStatus.CREATED).body(category);

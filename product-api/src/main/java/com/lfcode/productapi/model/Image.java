@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -19,7 +18,7 @@ public class Image implements Serializable {
         @Id
         @EqualsAndHashCode.Include
         @GeneratedValue(strategy = GenerationType.AUTO)
-        private UUID id;
+        private Long id;
 
         @Column(columnDefinition = "Text")
         private String Image;

@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -24,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> findById(UUID id) {
+    public Optional<Category> findById(Long id) {
 
         return categoryRepository.findById(id);
     }
