@@ -50,10 +50,6 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found!");
         } else {
 
-            for (int pos = 0; pos < product.getImages().size(); pos++) {
-                product.getImages().get(pos).setProduct(product);
-            }
-            //product.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
             product.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
 
             productService.save(product);
@@ -73,25 +69,13 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Object> registerProduct(@RequestBody Product product) {
+    @PostMapping
+    public ResponseEntity<Object> saveProduct(@RequestBody Product product) {
 
-        if (productService.existsByNameProduct(product.getNameProduct())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Product is Already Taken!");
-        } else {
-
-            for (int pos = 0; pos < product.getImages().size(); pos++) {
-                product.getImages().get(pos).setProduct(product);
-            }
             product.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
             product.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-
-            productService.save(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body(product);
-        }
+            return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
-
-
 }
 
 

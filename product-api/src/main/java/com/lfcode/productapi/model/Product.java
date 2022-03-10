@@ -8,11 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "TB_PRODUCT")
 public class Product implements Serializable {
@@ -26,6 +24,7 @@ public class Product implements Serializable {
     @Column(nullable = false, length = 100)
     private String nameProduct;
 
+    @Column(length = 10)
     private String SKU;
 
     @Column(nullable = false, columnDefinition = "Text")
@@ -49,8 +48,6 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private BigDecimal price;
 
-    private String linkYoutube;
-
     private Integer quantitySales;
 
     private Boolean active = Boolean.FALSE;
@@ -62,15 +59,13 @@ public class Product implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime lastUpdateDate;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
-    private Supplier supplier;
+    @OneToMany(mappedBy = "product", orphanRemoval = true, cascade =
+            CascadeType.ALL, fetch =  FetchType.LAZY)
+    private List<Image> images;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Image> images = new ArrayList<Image>();
 
 }

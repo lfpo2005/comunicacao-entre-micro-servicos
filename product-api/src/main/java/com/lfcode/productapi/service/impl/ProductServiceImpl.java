@@ -27,8 +27,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(Product product) {
-        productRepository.save(product);
+    public Product save(Product product) {
+
+        for (int img = 0 ; img <product.getImages().size(); img ++) {
+            product.getImages().get(img).setProduct(product);
+        }
+
+        return productRepository.save(product);
 
     }
 
@@ -37,8 +42,4 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(product);
     }
 
-    @Override
-    public boolean existsByNameProduct(String nameProduct) {
-        return productRepository.existsByNameProduct(nameProduct);
-    }
-}
+  }

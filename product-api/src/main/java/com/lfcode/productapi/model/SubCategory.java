@@ -1,5 +1,6 @@
 package com.lfcode.productapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -7,10 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "TB_SUPPLIER")
-public class Supplier implements Serializable {
+@Table(name = "TB_SUB_CATEGORY")
+public class SubCategory implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -18,11 +18,14 @@ public class Supplier implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false, length = 50, unique = true)
-    private String nameSupplier;
+    private String subCategory;
 
-  /*  @OneToMany(mappedBy = "supplier", fetch = FetchType.LAZY)
-    private List<Product> product;*/
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name ="category_id")
+    private Category category;
+
+
 
 
 }

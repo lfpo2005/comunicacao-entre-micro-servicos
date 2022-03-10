@@ -13,10 +13,8 @@ public interface ProductService {
 
     Optional<Product> findById(Long id);
 
-    void save(Product product);
+    Product save(Product product);
 
     void delete(Product product);
 
-    boolean existsByNameProduct(String nameProduct);
-
-}
+   }

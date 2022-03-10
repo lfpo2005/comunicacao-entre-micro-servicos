@@ -3,28 +3,24 @@ package com.lfcode.productapi.controller;
 import com.lfcode.productapi.model.Category;
 import com.lfcode.productapi.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/api/category")
+@RequestMapping("v1/api/category")
 public class CategoryController {
 
     @Autowired
     CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<Page<Category>> getAllCategory(@PageableDefault(page = 0, size = 10)
-                                                                 Pageable pageable) {
-
-        return ResponseEntity.ok(categoryService.findAll(pageable));
+    public ResponseEntity<List<Category>> getAllCategory() {
+        return ResponseEntity.status(HttpStatus.OK).body(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -47,9 +43,8 @@ public class CategoryController {
         if (!categoryOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found!");
         } else {
-
             categoryService.save(category);
-            return ResponseEntity.status(HttpStatus.OK).body(categoryOptional.get());
+            return ResponseEntity.status(HttpStatus.CREATED).body(category);
         }
     }
 
@@ -65,16 +60,14 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Object> registerCategory(@RequestBody Category category) {
+    @PostMapping
+    public ResponseEntity<Object> saveCategory(@RequestBody Category category) {
 
-        if (categoryService.existsByNameCategory(category.getNameCategory())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Category is Already Taken!");
-        } else {
-
-            categoryService.save(category);
-            return ResponseEntity.status(HttpStatus.CREATED).body(category);
+      /*  for (int pos = 0 ; pos <category.getSubCategories().size(); pos ++) {
+            category.getSubCategories().get(pos).setCategory(category);
         }
+        */
+            return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.save(category));
     }
 }
 
